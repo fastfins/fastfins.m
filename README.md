@@ -1,5 +1,7 @@
 # Current status of FastFInS
 
+This is the public version of FastFInS
+
 % run fastfins_check_solvers() to check all the interfaces are installed
 * now fem_hp is formally supported by fastfins
 * distmesh (by Per-Olof Persson) is used by the spectral FEM package under fem_hp for complex geometries. 
