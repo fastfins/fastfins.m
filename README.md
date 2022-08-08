@@ -2,8 +2,9 @@
 
 % run fastfins_check_solvers() to check all the interfaces are installed
 * now fem_hp is formally supported by fastfins
-* distmesh is used by the spectral FEM package under fem_hp, need to check the license for distributing this package
-* tomo2d uses the tomography code written by J. Heikkinen to setup geometry of the forward model. We have the permission to use it. This may need to be re-written before releasing the code.
+* distmesh (by Per-Olof Persson) is used by the spectral FEM package under fem_hp for complex geometries. 
+* distmesh is under the terms of the GNU General Public License (version 2 or later). 
+* tomo2d contains a function of the tomography code written by J. Heikkinen for computing the cut length. 
 
 # Examples
 
@@ -22,3 +23,4 @@ More work needs:
 
 The following package needs to be removed (or significantly updated)
 * fem_bilinear
+
