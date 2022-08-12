@@ -10,6 +10,7 @@ function model = build_model(n_cells, angle_sources, n_sources, n_detectors, det
 % n_detectors:    number of detectors per radiation source
 % detector_width: width of each detector
 
+
 model.B = 20; % box size
 model.R = 40; % ring size
 
