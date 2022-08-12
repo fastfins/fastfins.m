@@ -92,13 +92,14 @@ for i = 1:model.n_sourc
         inter_x_grid = slope*(grid1 - P1(1)) + P1(2);
         % intersection with y grid, gives y coord
         inter_y_grid = (grid1 - P1(2))/slope + P1(1);
-        % row lexicographical ordering 
+        % column lexicographical ordering of pixels
         for row = 1:model.n_cells
             for col = 1:model.n_cells
                 dist = cut_length(grid1(row), grid1(row+1), grid1(col), grid1(col+1), ...
                     inter_y_grid(row), inter_y_grid(row+1), inter_x_grid(col), inter_x_grid(col+1));
                 %
-                A(j+(i-1)*model.n_detec, col+(row-1)*model.n_cells) = dist;
+                %A(j+(i-1)*model.n_detec, col+(row-1)*model.n_cells) = dist;
+                A(j+(i-1)*model.n_detec, row+(col-1)*model.n_cells) = dist;
             end
         end
     end

@@ -15,13 +15,13 @@ if isfile('setup.mat') && ~renew_setup
     load('setup.mat');
 else
 
-    tomo_opt = tomo_options('mesh_size', 32, 'angle', pi*2, 'n_sourc', 50, 'n_detec', 100, 'd_width', 1, 'Is',  100);
+    tomo_opt = tomo_options('mesh_size', 32, 'angle', pi*2/3, 'n_sourc', 50, 'n_detec', 80, 'd_width', 1, 'Is',  50);
 
-    %inv_opts = inverse_options('cov_type', 'MRF', 'mean', 0, 'k', 5, 'cond', [1, 1, 0], 'sigma', 2, ...
-    %    'test_type', 'CF', 'test_base', 2, 'test_range', -7);
-
-    inv_opts = inverse_options('cov_type', 'GP', 'mean', 0, 'scale', 50, 'power', 1, 'sigma', 1, ...
+    inv_opts = inverse_options('cov_type', 'MRF', 'mean', 0, 'k', 10, 'cond', [1, 1, 0], 'sigma', 10, ...
         'test_type', 'CF', 'test_base', 2, 'test_range', -7);
+
+    %inv_opts = inverse_options('cov_type', 'GP', 'mean', 0, 'scale', 50, 'power', 1, 'sigma', 1, ...
+    %    'test_type', 'CF', 'test_base', 2, 'test_range', -7);
 
     [model, obs, prior] = setup_tomo(tomo_opt, inv_opts, '');
 
