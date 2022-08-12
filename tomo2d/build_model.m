@@ -1,7 +1,15 @@
 function model = build_model(n_cells, angle_sources, n_sources, n_detectors, detector_width)
+%MODEL = BUILD_MODEL(n_cells, angle_sources, n_sources, n_detectors, detector_width)
+%
+% The model domain (object to be estimated) is defined in a box [-20,20]^2, 
+% the radiation sources and detectors are located on a ring with radius 40
+%
+% n_cells:        number of discretization cells in 1D for the object
+% angle_sources:  the span angle of radiation sources
+% n_sources:      number of radiation sources
+% n_detectors:    number of detectors per radiation source
+% detector_width: width of each detector
 
-% default size of the object [-1, 1, -1, 1]
-% outer ring radius is 2
 model.B = 20; % box size
 model.R = 40; % ring size
 
