@@ -14,6 +14,9 @@ us = matvec_prior_L(prior, vs) + prior.mean_u;
 ds = forward_solve_vec(model, us);
 %
 
+warning('minus_log_post_vec: double check this function')
+        
+        
 switch obs.like
     case {'normal'}    
         misfit = (ds - obs.data(:))./obs.std(:);

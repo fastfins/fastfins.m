@@ -1,4 +1,4 @@
-function [mlpt, mllkd, gmlpt, gmllkd, sol] = minus_log_post(model, obs, prior, v)
+function [mlpt, mllkd, gmlpt, gmllkd, sol] = minus_log_post(model, obs, prior, v, mask)
 %MODEL_SOLVE
 %
 % solve the forward model
@@ -7,6 +7,10 @@ function [mlpt, mllkd, gmlpt, gmllkd, sol] = minus_log_post(model, obs, prior, v
 % assemble the information for evaluating the matvec with PPH, optional
 %
 % Tiangang Cui, 19/August/2019
+
+if nargin < 5
+    mask = [];
+end
 
 % prior, assuming the input v is wsoltten parameters
 grad_p  = v;
@@ -17,12 +21,18 @@ u   = matvec_prior_L(prior, v) + prior.mean_u;
 sol = forward_solve(model, u);
 %
 if nargout < 3
-    mllkd   = minus_log_like(obs, sol.d);
+    mllkd   = minus_log_like(obs, sol.d, mask);
     mlpt    = mllkd + mlp;           % minus log posterior
 else
-    [mllkd,gd,sol.I] = minus_log_like(obs, sol.d);
+    [mllkd,gd,sol.I] = minus_log_like(obs, sol.d, mask);
     mlpt    = mllkd + mlp;           % minus log posterior
-    gu      = matvec_Jty(model, sol, gd);
+    if isempty(mask)
+        gu  = matvec_Jty(model, sol, gd);
+    else
+        gd_full = zeros(obs.n_data, 1);
+        gd_full(mask) = gd;
+        gu  = matvec_Jty(model, sol, gd_full);
+    end
     gmllkd  = matvec_prior_Lt(prior, gu);
     gmlpt   = gmllkd + grad_p;
 end
