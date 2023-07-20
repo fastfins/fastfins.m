@@ -18,8 +18,8 @@ f           = 0.5*sum(res(:).^2);
 HI.mlrto    = 0.5*sum(Tvr(:).^2);
 HI.res      = HI.d - obs.data;
 
-if model.explicitJ
-    Ju      = explicit_J(model, HI);
+if model.explicit_ja
+    Ju      = explicit_jacobian(model, HI);
     Jvr     = Ju*rto_lin.LPhi./obs.std;
     HI.A    = rto_lin.linref'*Jvr;
     HI.J    = rto_lin.d(:).*( HI.A + eye(rto_lin.nrank) );

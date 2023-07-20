@@ -2,7 +2,7 @@ function logd =  rto_func_d(model, obs, curr_lin, HI, trust_flag)
 %
 % Tiangang Cui, August, 1, 2017
 
-if model.explicitJ
+if model.explicit_ja
     A   = HI.A + eye(curr_lin.nrank);
 else
     % compute determinant

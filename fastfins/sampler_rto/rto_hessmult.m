@@ -3,7 +3,7 @@ function Hdv = rto_hessmult(model, obs, rto_lin, HI, dv, trust_flag)
 %
 %Tiangang Cui, Nov 11, 2015
 
-if model.explicitJ
+if model.explicit_ja
     Hdv = HI.J'*(HI.J*dv);
 else
     Tv  = rto_linfor (model, obs, rto_lin, HI, dv, trust_flag);

@@ -19,7 +19,7 @@ fdiff       = Fnorm - linfor;
 
 % trust region function and gradient
 d           = abs(rto_lin.Fref) + 1;
-[tr_f,tr_g] = trust_region(fdiff./d, trust_size, smooth_ratio);
+[tr_f,tr_g] = trust_region_rto(fdiff./d, trust_size, smooth_ratio);
 tr_f        = tr_f.*d;
 HI.diag     = tr_g;
 
@@ -36,8 +36,8 @@ f           = 0.5*sum(res(:).^2);
 
 HI.mlrto    = 0.5*sum(Tvr(:).^2);
 
-if model.explicitJ
-    Ju      = explicit_J(model, HI);
+if model.explicit_ja
+    Ju      = explicit_jacobian(model, HI);
     Jvr     = Ju*rto_lin.LPhi./obs.std;
     Jnew    = HI.diag(:).*(Jvr - rto_lin.linref) + rto_lin.linref;
     

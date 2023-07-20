@@ -5,7 +5,7 @@ function rto_lin = rto_local_lin(model, obs, prior, v, svd_tol, svd_nmax)
 
 [~,~,~,~,HI] = minus_log_post(model, obs, prior, v);
 
-if model.explicitJ
+if model.explicit_ja
     [rto_lin.Psi, rto_lin.s, rto_lin.Phi] ...
         = svd_explicit_WJ(model, obs, prior, v, svd_tol, svd_nmax);
 else

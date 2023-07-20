@@ -25,8 +25,8 @@ else
     flux = @(x1, x2) flux_fx(x1).*flux_fy(x2);
     
     % obs locations
-    gx  = linspace(0, 1, 17);
-    gy  = linspace(0, 1, 17);
+    gx  = linspace(0, 1, 9);
+    gy  = linspace(0, 1, 9);
     [xx0,yy0] = meshgrid(gx(2:end-1), gy(2:end-1));
     xx0 = xx0(:);
     yy0 = yy0(:);
@@ -34,14 +34,14 @@ else
     obs_locs  = unique([xx0, yy0], 'rows');
     
     %
-    model_opts = hp_options('h', 1/32, 'poly_order', 2, 'quad_order', 15, ...
+    model_opts = hp_options('h', 1/16, 'poly_order', 2, 'quad_order', 15, ...
         'xyratio', 1, 'qoi_func', flux, 'obs_locs', obs_locs, 'sq_param', sq_flag, ...
         'bnd_funcs', bnd_funcs,'bc_types', bc_types, 'bc_funcs', bc_funcs);
     
     %inv_opts = inverse_options('s2n', 10, 'cov_type', 'MRF', 'mean', 0, ...
     %    'gamma', 20, 'cond', [1, 1, 0], 'sigma', 1);
 
-    inv_opts = inverse_options('s2n', 20, 'cov_type', 'GP', 'mean', 0, ...
+    inv_opts = inverse_options('s2n', 10, 'cov_type', 'GP', 'mean', 0, ...
         'scale', 50, 'power', 2, 'sigma', 2);
     
     [model, obs, prior] = setup_poisson(model_opts, inv_opts, test_case, []);
@@ -59,7 +59,7 @@ else
     mlpost  = @(v) minus_log_post(model, obs, prior, v);
     mvhess  = @(sol, dv) matvec_PPFisher(model, prior, sol, dv);
     vini = randn(prior.dof, 1);
-    vmap = get_map_2020a(mlpost, mvhess, vini);
+    vmap = get_map_2023a(mlpost, mvhess, vini);
     umap = matvec_prior_L(prior, vmap) + prior.mean_u;
     solm = forward_solve(model, umap);
 

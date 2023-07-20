@@ -17,7 +17,7 @@ opt_HM = optimoptions('fminunc','Algorithm','trust-region','SpecifyObjectiveGrad
     'HessianMultiplyFcn',@(HI,dv) rto_hessmult(model, obs, rto_lin, HI, dv), 'Display','off', ...
     'MaxIterations', 500, 'OptimalityTolerance', 1E-8, 'StepTolerance', 1E-8);
 
-[vrnew,fnew,~,~,~,out] = fminunc_2020a(@(vr) rto_obj(model, obs, rto_lin, uperp, epsilon, vr), vr_init, opt_HM);
+[vrnew,fnew,~,~,~,out] = fminunc_2023a(@(vr) rto_obj(model, obs, rto_lin, uperp, epsilon, vr), vr_init, opt_HM);
 
 %out.output  = HI.d;
 out.logd = rto_func_d(model, obs, rto_lin, out);

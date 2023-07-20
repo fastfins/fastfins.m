@@ -11,7 +11,7 @@ if ~isstruct(sol)
     [~,~,~,~,sol] = minus_log_post(model, obs, prior, sol);
 end
 
-Ju = explicit_J(model, sol);
+Ju = explicit_jacobian(model, sol);
 Ju = Ju./obs.std(:);
 Jv = matvec_prior_Lt(prior, Ju')';
 
