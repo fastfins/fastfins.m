@@ -33,6 +33,7 @@ switch obs.like
         gmllkd = 1 - data./d;
         d(d<eps) = eps;
         I = spdiags(1./d, 0, numel(d), numel(d));
+        misfit = [];
     otherwise
         error('likelihood not implemented')
 end

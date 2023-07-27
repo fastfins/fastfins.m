@@ -12,9 +12,9 @@ for k = 1:model.n_datasets
     bi = (k-1)*model.n_sensors;
     for j = 1:model.n_sensors
         if model.sq_param
-            J(bi+j,:) = deri_adjoint_stiff_sol_sq(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,bi+j), sol.state(:,k));
+            J(bi+j,:) = deri_adjoint_stiff_sol_sq(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,j), sol.state(:,k));
         else
-            J(bi+j,:) = deri_adjoint_stiff_sol(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,bi+j), sol.state(:,k));
+            J(bi+j,:) = deri_adjoint_stiff_sol(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,j), sol.state(:,k));
         end
     end
 end

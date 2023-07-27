@@ -16,9 +16,11 @@ if n == 1
     if model.exp_param
         x = exp(u);
         sol.dxdu = x;
+        sol.dx2du2 = x;
     else
         x = u;
         sol.dxdu = ones(length(u(:)),1);
+        sol.dx2du2 = zeros(length(u(:)),1);
     end
     sol.kappa   = x;
 elseif n == nd && nd > 1
@@ -26,21 +28,26 @@ elseif n == nd && nd > 1
     if model.exp_param
         x = exp(u);
         sol.dxdu = x(:);
+        sol.dx2du2 = x(:);
     else
         x = u;
         sol.dxdu = ones(length(u(:)),1);
+        sol.dx2du2 = zeros(length(u(:)),1);
     end
     sol.kappa   = x;
 elseif n == (nd+1)
     sol.kappa_type = 'tensor';
     x = u;
     dxdu = ones(size(u));
+    dx2du2 = zeros(size(u));
     if model.exp_param
         x(:,1) = exp(u(:,1));
         dxdu(:,1) = x(:,1);
+        dx2du2(:,1) = x(:,1);
     end
     sol.kappa   = x;
     sol.dxdu    = dxdu(:);
+    sol.dx2du2  = dx2du2(:);
 else
     error('kappa not implemented')
 end

@@ -35,6 +35,8 @@ else
     end
     gmllkd  = matvec_prior_Lt(prior, gu);
     gmlpt   = gmllkd + grad_p;
+    sol.gd  = gd;
+    sol.gu  = gu;
 end
 
 end
