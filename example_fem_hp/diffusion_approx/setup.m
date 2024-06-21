@@ -2,7 +2,7 @@
 load_dir;
 
 % model
-hs = 1./[16, 32, 64];
+hs = 1./[4, 8, 16, 32, 64];
 a = 5; % x direction [0,5]
 b = 3; % y direction [0,3]
 sc = a/2; % light source center
@@ -90,4 +90,3 @@ plot(xj0, yj0, 'ko-', 'LineWidth', 3)
 hold on
 plot(xj1, yj1, 'bo:', 'LineWidth', 3)
 title('counter clock node ordering, also showing the cut of the square')
-

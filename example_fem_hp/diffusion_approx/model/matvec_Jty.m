@@ -11,12 +11,9 @@ Jty = zeros(length(sol.dxdu(:)), N);
 for k = 1:N
     bi = (k-1)*model.n_datasets;
     for j = 1:model.n_datasets
-        if model.sq_param
-            g = deri_adjoint_stiff_sol_sq(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,bi+j), sol.state(:,j));
-        else
-            g = deri_adjoint_stiff_sol(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,bi+j), sol.state(:,j));
-        end
-        Jty(:,k) = Jty(:,k) + g;
+        g1 = deri_adjoint_mass_sol(model.mesh, model.local_elem, lambda(:,bi+j), sol.state(:,j));
+        g2 = deri_adjoint_stiff_sol(model.mesh, model.local_elem, 'scalar', [], lambda(:,bi+j), sol.state(:,j));
+        Jty(:,k) = Jty(:,k) + g1 + g2.*sol.dkdx;
     end
 end
 

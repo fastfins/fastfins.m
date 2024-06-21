@@ -11,11 +11,9 @@ J = zeros(model.n_sensors*model.n_datasets, length(sol.dxdu(:)));
 for k = 1:model.n_datasets
     bi = (k-1)*model.n_sensors;
     for j = 1:model.n_sensors
-        if model.sq_param
-            J(bi+j,:) = deri_adjoint_stiff_sol_sq(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,j), sol.state(:,k));
-        else
-            J(bi+j,:) = deri_adjoint_stiff_sol(model.mesh, model.local_elem, sol.kappa_type, sol.kappa, lambda(:,j), sol.state(:,k));
-        end
+        J(bi+j,:) = deri_adjoint_stiff_sol(model.mesh, model.local_elem, 'scalar', [], lambda(:,j), sol.state(:,k));
+        J(bi+j,:) = J(bi+j,:).*sol.dkdx(:)';
+        J(bi+j,:) = J(bi+j,:) + deri_adjoint_mass_sol(model.mesh, model.local_elem, lambda(:,j), sol.state(:,k))';
     end
 end
 
