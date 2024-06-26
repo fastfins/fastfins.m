@@ -63,6 +63,8 @@ for i = 1:length(hs)
 end
 
 %%
+es1 = [];
+es2 = [];
 for i = 1:length(hs)
     true_u = true_mua(models{i}.mesh.nodes(:,1),models{i}.mesh.nodes(:,2));
     true_s = true_sol(models{i}.mesh.nodes(:,1),models{i}.mesh.nodes(:,2));
@@ -82,9 +84,13 @@ for i = 1:length(hs)
     trisurf(models{i}.mesh.node_tri, models{i}.mesh.nodes(:,1), models{i}.mesh.nodes(:,2), diff, 'edgecolor', 'none')
     title('diff');
 
-    es(i) = sqrt(diff'*models{i}.mass*diff);
+    es1(i) = sqrt(diff'*models{i}.mass*diff);
+    es2(i) = norm(models{i}.obs_operator*(true_u.*diff));
 end
 
 figure
-loglog(hs, es, 'x-')
+loglog(hs, es1, 'x-')
+hold on
+loglog(hs, es2, 'o-')
 title('L^2 error vs h')
+legend('state', 'observable')

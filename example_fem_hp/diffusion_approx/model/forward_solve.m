@@ -40,20 +40,12 @@ A  = M + K + model.M_bnd*(2/pi);
 [sol.L,~,sol.p] = chol(A,'lower', 'vector');
 % solve
 sol.state = zeros(size(model.b));
-sol.state(sol.p,:)  = sol.L'\(sol.L\model.b(sol.p,:));
+sol.state(sol.p,:) = sol.L'\(sol.L\model.b(sol.p,:));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % apply observation operator, which contains the mass matrix if needed
-sol.d  = model.obs_operator*sol.state;
-
-% apply qoi function
-if model.qoi_flag
-    sol.Q   = -model.phi*Ak;
-    sol.qoi = sol.Q*sol.state; % the const forcing term is not added, does not affect the MC
-else
-    sol.qoi = [];
-end
+sol.d  = model.obs_operator*(sol.mu_a.*sol.state);
 
 end
 
