@@ -23,6 +23,7 @@ for bi = 1:length(model_opts.bnd_funcs)
     end
     bf_weak = model.mass_bnds{bi}*sparse(b_ind(:),ones(size(b_ind(:))),b_force(:),model.mesh.dof, 1);
     model.bnd_b = model.bnd_b + bf_weak;
+    model.M_bnd = model.M_bnd + model.mass_bnds{bi};
 end
 model.b = 2*model.bnd_b;
 
