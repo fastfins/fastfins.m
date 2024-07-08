@@ -32,6 +32,14 @@ end
 %
 WdetJ = model.local_elem.quad_weights(:)*model.mesh.detJ(:)';
 %
+nmu = size(Vmu,2);
+Ms = zeros(nU^2, nmu);
+for i = 1:nmu
+    mu_atq = model.local_elem.f_quad_pts*reshape(Vmu(model.mesh.node_map',i), nb, ne);
+    tmp = (u.*mu_atq(:).*WdetJ(:))'*u;
+    Ms(:,i) = tmp(:);
+end
+%
 nK = size(Vk,2);
 Ks = zeros(nU^2, nK);
 for i = 1:nK
@@ -43,15 +51,5 @@ for i = 1:nK
     Ks(:,i) = tmp(:);
 end
 %
-nmu = size(Vmu,2);
-Ms = zeros(nU^2, nmu);
-for i = 1:nK
-    mu_atq = model.local_elem.f_quad_pts*reshape(Vmu(model.mesh.node_map',i), nb, ne);
-    tmp = zeros(nU);
-    for di = 1:nd
-        tmp = tmp + (u.*mu_atq(:).*WdetJ(:))'*u;
-    end
-    Ms(:,i) = tmp(:);
-end
 
 end

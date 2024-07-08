@@ -65,7 +65,7 @@ subplot(1,2,2)
 trisurf(model.mesh.node_tri, model.mesh.nodes(:,1), model.mesh.nodes(:,2), u, 'edgecolor', 'none')
 
 %%
-prior_KL = basis_KL(prior, 1-1E-2);
+prior_KL = basis_KL(prior, 1-1E-3);
 N = 1E3;
 sub_vs = randn(prior_KL.dof, N);
 weights = ones(N, 1);
@@ -82,7 +82,7 @@ toc
 %%
 rom_opts.pod_state_tol = 1E-4;
 rom_opts.prior_deim_tol = 1E-6;
-rom_opts.deim_reg_factor = 2;
+rom_opts.deim_reg_factor = 1.5;
 rom = setup_rom(model, states, prior_KL, sub_vs, weights, rom_opts);
 
 %%
