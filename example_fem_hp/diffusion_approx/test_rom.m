@@ -96,3 +96,39 @@ for i = 1:N
     rds(:,i) = rsol.d;
 end
 toc
+
+%%
+% use the first 20 LIS basis
+lis = basis_LIS(prior, V(:,1:20));
+
+% need some real samples
+N = 1E3;
+sub_vs = randn(lis.dof, N);
+weights = ones(N, 1);
+states = zeros(model.dof, N);
+ds = zeros(obs.n_data, N);
+tic
+for i = 1:N
+    sol = forward_solve(model, lis.basis*sub_vs(:,i)+lis.mean_u);
+    states(:,i) = sol.state;
+    ds(:,i) = sol.d;
+end
+toc
+
+%%
+rom_opts.pod_state_tol = 1E-4;
+rom_opts.prior_deim_tol = 1E-6;
+rom_opts.deim_reg_factor = 1.5;
+rom = setup_rom(model, states, lis, sub_vs, weights, rom_opts);
+
+%%
+rstates = zeros(rom.dof, N);
+rds = zeros(obs.n_data, N);
+tic
+for i = 1:N
+    rsol = rom_solve(rom, sub_vs(:,i));
+    rstates(:,i) = rsol.state;
+    rds(:,i) = rsol.d;
+end
+toc
+
