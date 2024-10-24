@@ -28,6 +28,13 @@ opts.mc_npm   = 5; % number of samples for marginlisation
 [data_sets, betas, log_zs, liss, kernels]  = smc_lis_pm(opts);
 
 %%
-% plot the MCMC states for the last temperature
+% plot the SMC states for the last temperature
+figure
+plot(data_sets{end,1}(1,:))
+title('the first element of full space SMC samples')
 
+
+figure
+plot(data_sets{end,2})
+title('minus log likelihood of SMC samples')
 

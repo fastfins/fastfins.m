@@ -39,3 +39,20 @@ tic
 out_dili = dili(ml_target, P_dili, stat, vmap, opt);
 toc
 
+%%
+% plots and examples of how to extract results from out_dili
+figure
+plot(out_dili.mllkd)
+title('minus log likelihood')
+
+figure
+plot(out_dili.mlpt)
+title('minus log posterior')
+
+figure
+plot(out_dili.sub_samples(1,:))
+title('the first element of subspace markov chain')
+
+figure
+plot(out_dili.samples(1,:))
+title('the first element of full space markov chain')

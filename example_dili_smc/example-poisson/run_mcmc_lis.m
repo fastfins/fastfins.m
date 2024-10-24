@@ -3,7 +3,7 @@
 opts.mlpost   = @(v) minus_log_post(model, obs, prior, v);   % the log-likelihood function
 opts.np       = prior.dof;
 %
-opts.mc_iter  = 5E4;
+opts.mc_iter  = 5E3;
 opts.mc_prop  = 'MALA';
 opts.mc_sigma = -0.5;
 opts.mc_rate  = 0.57;
