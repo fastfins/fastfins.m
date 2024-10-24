@@ -29,9 +29,9 @@ lis_opt_dili = lis_options('method', 'DILI', 'hess_type', 'Eig', ...
 [P_dili,S_dili,gsvd_dili,out_dili] = build_lis(ml_target, hessian, vmap, lis_opt_dili);
 stat = out_dili.stat;
 
-lis.V = P_dili;
-lis.s = S_dili;
-lis.r = size(P_dili,2);
+lis_dili.V = P_dili;
+lis_dili.s = S_dili;
+lis_dili.r = size(P_dili,2);
 
 %% run DILI MCMC using the LIS
 opt = mcmc_options('proposal', 'MALA', 'nstep', 1E4, 'sbatch', 1, 'sigma', -3);
