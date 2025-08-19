@@ -11,7 +11,7 @@ us = [];
 tic;
 for i = 1:n_samples
     u = prior_random(prior, 1);
-    sol = forward_solve(model, obs.true_u);
+    sol = forward_solve(model, u);
 
     us = [us, u(:)];
     qois = [qois, sol.q];
