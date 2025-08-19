@@ -101,12 +101,17 @@ end
 sol.d  = model.obs_operator*sol.state(:, model.obs_ind);
 sol.d  = sol.d(:);
 
+sol.q = model.pred_operator*sol.state(:, model.pred_ind);
+sol.q  = sol.q(:);
+
 % apply qoi function
+%{
 if model.qoi_flag
     sol.qoi = model.phi*(Ak*sol.state(:, model.pred_ind)); % the const forcing term is not added, does not affect the MC
 else
     sol.qoi = [];
 end
+%}
 
 end
 

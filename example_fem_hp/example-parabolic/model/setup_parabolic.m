@@ -2,16 +2,16 @@ function [model, obs, prior] = setup_parabolic(model_opts, inv_opts, type, outpu
 
 % Tiangang Cui, 10/Sep/2020
 
-[p,t]   = simplemesh2d(model_opts.h, 1, model_opts.xyratio);
-model   = setup_2nd_order(p, t, model_opts);
+[p,t] = simplemesh2d(model_opts.h, 1, model_opts.xyratio);
+model = setup_2nd_order(p, t, model_opts);
 
 %
-model.gmres_flag  = model_opts.gmres;
+model.gmres_flag = model_opts.gmres;
 model.res_tol = model_opts.res_tol;
 model.explicit_ja = false;
 
 % assemble forcing term
-force   = model_opts.force_func(model.mesh.nodes(:,1), model.mesh.nodes(:,2));
+force = model_opts.force_func(model.mesh.nodes(:,1), model.mesh.nodes(:,2));
 % weak form of the force, on nodes
 if length(force) == 1
     model.b = full(sum(model.mass, 2))*force;
@@ -54,6 +54,9 @@ model.init  = model_opts.init_func(model.mesh.nodes(:,1), model.mesh.nodes(:,2))
 model.obs_operator  = mesh_interpolate(model.mesh, model.local_elem, model_opts.obs_locs, model.h, false);
 model.n_sensors     = size(model_opts.obs_locs,1);
 
+model.pred_operator  = mesh_interpolate(model.mesh, model.local_elem, model_opts.pred_locs, model.h, false);
+
+%{
 % apply qoi function
 tol = 1E-10;
 disp('flux QoI')
@@ -64,6 +67,7 @@ if ~isempty(model_opts.qoi_func)
     model.phi = sparse(phi);
     model.qoi_flag  = true;
 end
+%}
 
 model.dof = model.mesh.dof; % for consistency
 % transformation
@@ -84,7 +88,7 @@ model.dt        = min((model.T_obs_final - model.T_obs_start)/model.n_datasets, 
 model.T_nstep   = ceil(model.T_final/model.dt);
 model.T_obs_nstep = ceil(model.T_obs_final/model.dt);
 model.obs_ind   = round(linspace(model.T_obs_start, model.T_obs_final, model.n_datasets)/model.dt);
-model.pred_ind  = round(model.T_prediction/model.dt);
+model.pred_ind  = round(linspace(model.T_obs_final, model.T_prediction, model.n_datasets)/model.dt);
 
 %%%%%%%%%%%%%%%%%%% build prior %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
